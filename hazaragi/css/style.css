@@ -1,0 +1,284 @@
+/* ═══════════ گنجینهٔ شعرِ هزارگی ═══════════ */
+
+:root {
+  --paper: #f3e7c9;
+  --paper-2: #ead9b0;
+  --card: #f8efd8;
+  --ink: #2b1d10;
+  --ink-soft: #5c4630;
+  --lapis: #1f3a6b;
+  --lapis-2: #2c4f8c;
+  --gold: #b8892a;
+  --gold-hi: #d4a63a;
+  --madder: #8e2b20;
+  --teal: #1d4f45;
+  --line: rgba(120, 82, 40, .35);
+  --shadow: 0 10px 30px -12px rgba(60, 35, 10, .45);
+  --f-qalam: "Noto Nastaliq Urdu", "IranNastaliq", "Nastaliq", serif;
+  --f-naskh: "Amiri", "Traditional Arabic", serif;
+  --f-sans: "Vazirmatn", "Tahoma", sans-serif;
+  --radius: 14px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141a2b; --paper-2: #1b2338; --card: #1c2540; --ink: #f1e4c4; --ink-soft: #c9b88f;
+    --lapis: #0f1d3a; --lapis-2: #8fb0ea; --gold: #d9ad4a; --gold-hi: #f0c868; --madder: #d0644f;
+    --teal: #4fa08c; --line: rgba(217, 173, 74, .28); --shadow: 0 10px 30px -12px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141a2b; --paper-2: #1b2338; --card: #1c2540; --ink: #f1e4c4; --ink-soft: #c9b88f;
+  --lapis: #0f1d3a; --lapis-2: #8fb0ea; --gold: #d9ad4a; --gold-hi: #f0c868; --madder: #d0644f;
+  --teal: #4fa08c; --line: rgba(217, 173, 74, .28); --shadow: 0 10px 30px -12px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  margin: 0;
+  font-family: var(--f-sans);
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--ink);
+  background-color: var(--paper);
+  /* بافتِ کاغذِ کهنه */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .3 0 0 0 0 .12 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 0%, transparent 40%, rgba(110, 70, 20, .12) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--lapis-2); }
+code { font-family: ui-monospace, monospace; direction: ltr; unicode-bidi: embed; background: var(--paper-2); padding: 0 .35em; border-radius: 4px; font-size: .85em; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--gold-hi); outline-offset: 2px; }
+
+/* ── نوارِ بالا ── */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--lapis) 94%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 3px solid var(--gold);
+  box-shadow: 0 4px 0 -1px var(--madder);
+}
+.topbar__inner { max-width: 1180px; margin: auto; display: flex; align-items: center; gap: 18px; padding: 8px 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #f3e7c9; flex-shrink: 0; }
+.brand__mark { width: 38px; height: 38px; color: var(--gold-hi); --paper: #1f3a6b; }
+.brand__name { font-family: var(--f-qalam); font-size: 1.15rem; line-height: 2.2; }
+.nav { display: flex; gap: 4px; margin-inline-start: auto; flex-wrap: wrap; }
+.nav a { color: #eadbb5; text-decoration: none; padding: 4px 12px; border-radius: 999px; font-size: .95rem; }
+.nav a:hover { background: rgba(212, 166, 58, .18); color: #fff; }
+.iconbtn {
+  display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid var(--gold); background: transparent; color: var(--gold-hi); font-size: 1.1rem;
+}
+.iconbtn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.iconbtn:hover { background: rgba(212, 166, 58, .15); }
+.topbar .iconbtn { color: #f0c868; }
+
+/* ── هیرو ── */
+.hero { position: relative; min-height: min(86vh, 760px); display: grid; place-items: center; overflow: hidden; isolation: isolate; }
+.hero__img {
+  position: absolute; inset: 0; z-index: -2;
+  background: url("../Bilder/bamiyan.svg") center bottom / cover no-repeat;
+  animation: drift 40s ease-in-out infinite alternate;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to bottom, rgba(15, 22, 45, .55), rgba(15, 22, 45, .35) 45%, rgba(20, 12, 4, .7));
+}
+@keyframes drift { from { transform: scale(1.04); } to { transform: scale(1.12) translateY(-10px); } }
+@media (prefers-reduced-motion: reduce) { .hero__img { animation: none; } html { scroll-behavior: auto; } }
+.hero__content { text-align: center; color: #f6ead0; padding: 48px 16px 64px; max-width: 820px; }
+.hero__kicker { letter-spacing: .05em; color: #f0c868; margin: 0; font-size: .95rem; }
+.hero__title {
+  font-family: var(--f-qalam); font-weight: 700; font-size: clamp(2.2rem, 7vw, 4.6rem);
+  line-height: 2; margin: 0; color: #f6d77e;
+  text-shadow: 0 2px 0 #6b3b10, 0 0 30px rgba(240, 200, 104, .35);
+}
+.hero__sub { margin: 18px 0 22px; font-size: 1.05rem; opacity: .92; }
+.daily {
+  margin: 0 auto 26px; max-width: 560px; padding: 18px 24px 14px; cursor: pointer;
+  background: rgba(243, 231, 201, .93); color: #2b1d10; border-radius: 6px;
+  border: 2px solid #b8892a; outline: 1px solid #b8892a; outline-offset: 5px;
+  box-shadow: 0 18px 40px -16px #000; transition: transform .25s;
+}
+.daily:hover { transform: translateY(-3px); }
+.daily figcaption { font-size: .8rem; color: #8e2b20; font-weight: 700; }
+.daily blockquote { margin: 0; font-family: var(--f-qalam); font-size: clamp(1rem, 2.6vw, 1.3rem); line-height: 2.5; white-space: pre-line; }
+.daily__title { font-size: .85rem; color: #5c4630; }
+.hero__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px;
+  text-decoration: none; font-weight: 700; font-size: .95rem; border: 2px solid var(--gold); transition: .2s;
+}
+.btn--gold { background: linear-gradient(#e2b64c, #b8892a); color: #2b1d10; border-color: #8a6418; }
+.btn--gold:hover { filter: brightness(1.08); }
+.btn--ghost { background: transparent; color: inherit; }
+.hero .btn--ghost { color: #f6ead0; }
+.btn--ghost:hover { background: rgba(212, 166, 58, .18); }
+
+/* ── تزئین ── */
+.ornament {
+  height: 34px; max-width: 1180px; margin: 34px auto; opacity: .85;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cpath d='M17 2l4 7 8-2-2 8 7 2-7 4 2 8-8-2-4 7-4-7-8 2 2-8-7-4 7-2-2-8 8 2z' fill='%23b8892a'/%3E%3Ccircle cx='17' cy='17' r='4' fill='%238e2b20'/%3E%3C/svg%3E") center / 34px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) center / calc(100% - 32px) 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) center calc(50% + 5px) / 60% 1px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) center calc(50% - 5px) / 60% 1px no-repeat;
+}
+
+/* ── بخش‌ها ── */
+.section { max-width: 1180px; margin: auto; padding: 8px 16px; }
+.section__title { text-align: center; margin: 0 0 6px; font-family: var(--f-qalam); font-weight: 700; font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 2.3; color: var(--madder); }
+.section__title span { display: inline-block; padding: 0 28px; position: relative; }
+.section__title span::before, .section__title span::after { content: "❖"; position: absolute; top: 50%; translate: 0 -40%; font-size: .5em; color: var(--gold); font-family: var(--f-sans); }
+.section__title span::before { right: 0; } .section__title span::after { left: 0; }
+.section__lead { text-align: center; color: var(--ink-soft); margin: 0 auto 28px; max-width: 640px; }
+
+/* ── دسته‌ها ── */
+.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+.cat {
+  position: relative; text-align: center; padding: 22px 18px 18px; border-radius: var(--radius);
+  background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); cursor: pointer;
+  transition: transform .25s, border-color .25s; color: inherit; font: inherit; overflow: hidden;
+}
+.cat::before { content: ""; position: absolute; inset: 6px; border: 1px dashed var(--line); border-radius: calc(var(--radius) - 5px); pointer-events: none; }
+.cat:hover { transform: translateY(-4px); border-color: var(--gold); }
+.cat__icon { width: 64px; height: 64px; margin: 0 auto 4px; display: grid; place-items: center; border-radius: 50%; color: var(--gold-hi); background: var(--lapis); box-shadow: inset 0 0 0 3px var(--gold), inset 0 0 0 6px var(--lapis); }
+.cat__icon svg { width: 34px; height: 34px; }
+.cat h3 { margin: 6px 0 0; font-family: var(--f-qalam); font-size: 1.15rem; line-height: 2.3; color: var(--lapis-2); }
+.cat p { margin: 0; color: var(--ink-soft); font-size: .88rem; line-height: 1.8; }
+.cat__n { display: inline-block; margin-top: 8px; font-size: .78rem; color: var(--madder); border: 1px solid currentColor; border-radius: 999px; padding: 0 10px; }
+
+/* ── ابزار و فیلتر ── */
+.toolbar { display: grid; gap: 14px; margin-bottom: 8px; }
+.search { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 16px; max-width: 560px; width: 100%; margin: auto; }
+.search:focus-within { border-color: var(--gold); }
+.search svg { width: 20px; height: 20px; color: var(--ink-soft); flex-shrink: 0; }
+.search input { border: 0; background: transparent; outline: 0; font: inherit; color: var(--ink); width: 100%; padding: 6px 0; }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.chip { border: 1.5px solid var(--line); background: transparent; border-radius: 999px; padding: 3px 14px; font-size: .9rem; color: var(--ink-soft); }
+.chip:hover { border-color: var(--gold); }
+.chip[aria-selected="true"] { background: var(--lapis); border-color: var(--gold); color: #f6d77e; }
+.count { text-align: center; color: var(--ink-soft); font-size: .85rem; margin: 6px 0 18px; }
+
+/* ── کارتِ شعر ── */
+.poems { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+.poem {
+  position: relative; display: flex; flex-direction: column; text-align: center; padding: 26px 22px 18px;
+  background: var(--card); border-radius: 4px; cursor: pointer; color: inherit; font: inherit;
+  border: 2px solid var(--gold); outline: 1px solid var(--gold); outline-offset: -8px;
+  box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s;
+}
+.poem:hover { transform: translateY(-4px) rotate(-.3deg); box-shadow: 0 20px 40px -18px rgba(60, 35, 10, .6); }
+.poem::before, .poem::after {
+  content: ""; position: absolute; width: 26px; height: 26px; top: -4px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M2 2h22v4H6v18H2z' fill='%238e2b20'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%23b8892a'/%3E%3C/svg%3E");
+}
+.poem::before { right: -4px; transform: scaleX(-1); }
+.poem::after { left: -4px; }
+.poem__tag { align-self: center; font-size: .75rem; color: #f6ead0; background: var(--madder); padding: 0 12px; border-radius: 999px; }
+.poem__title { font-family: var(--f-qalam); font-size: 1.2rem; line-height: 2.4; margin: 4px 0 2px; color: var(--lapis-2); }
+.poem__text { font-family: var(--f-qalam); font-size: 1rem; line-height: 2.6; color: var(--ink); margin: 0; flex: 1; white-space: pre-line; }
+.poem__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .8rem; color: var(--ink-soft); }
+.poem__fav { width: 18px; height: 18px; fill: var(--gold-hi); }
+mark { background: color-mix(in srgb, var(--gold-hi) 45%, transparent); color: inherit; border-radius: 3px; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--ink-soft); padding: 40px 0; }
+
+/* ── نگارخانه ── */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.frame { margin: 0; background: var(--card); padding: 10px 10px 4px; border: 1px solid var(--line); box-shadow: var(--shadow); cursor: zoom-in; border-radius: 4px; }
+.frame img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 3px double var(--gold); background: #efe0bd; }
+.frame figcaption { text-align: center; font-size: .9rem; color: var(--ink-soft); padding: 6px 0; }
+
+/* ── واژه‌نامه ── */
+.glossary { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin: 0; }
+.glossary div { background: var(--card); border: 1px solid var(--line); border-inline-start: 4px solid var(--gold); border-radius: 8px; padding: 6px 14px; }
+.glossary dt { font-family: var(--f-qalam); font-size: 1.05rem; line-height: 2.2; color: var(--madder); }
+.glossary dd { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+
+/* ── دربارهٔ ما ── */
+.about__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--lapis-2); border-radius: 8px; padding: 6px 20px 14px; }
+.panel h3 { font-family: var(--f-qalam); color: var(--lapis-2); line-height: 2.4; margin: 0; font-size: 1.15rem; }
+.panel p { margin: 0; font-size: .95rem; }
+.notice { margin: 22px auto 0; max-width: 760px; font-size: .85rem; color: var(--ink-soft); text-align: center; border: 1px dashed var(--line); border-radius: 8px; padding: 8px 14px; }
+
+/* ── پاورقی ── */
+.footer { margin-top: 56px; padding: 30px 16px; text-align: center; background: var(--lapis); color: #eadbb5; border-top: 3px solid var(--gold); box-shadow: 0 -4px 0 -1px var(--madder); }
+.footer__mark { width: 46px; height: 46px; color: var(--gold-hi); --paper: var(--lapis); }
+.footer p { font-family: var(--f-qalam); font-size: 1.15rem; line-height: 2.4; margin: 4px 0; color: #f6d77e; }
+.footer small { opacity: .75; }
+
+/* ── خواننده ── */
+dialog { border: 0; padding: 0; background: transparent; color: inherit; max-width: none; }
+dialog::backdrop { background: rgba(10, 12, 25, .72); backdrop-filter: blur(3px); }
+.reader { width: min(820px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); }
+.reader[open] { animation: unroll .35s ease-out; }
+@keyframes unroll { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+.reader__page {
+  position: relative; padding: 18px clamp(16px, 5vw, 56px) 26px; border-radius: 6px;
+  background: var(--card); color: var(--ink);
+  border: 3px solid var(--gold); outline: 10px solid var(--lapis); outline-offset: -16px;
+  box-shadow: inset 0 0 0 14px var(--card), inset 0 0 0 15px var(--gold), 0 30px 60px -20px #000;
+}
+.reader__bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; padding: 10px 0 4px; }
+.seg { display: inline-flex; border: 1.5px solid var(--gold); border-radius: 999px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 4px 12px; font-size: .85rem; min-width: 36px; }
+.seg button + button { border-inline-start: 1px solid var(--line); }
+.seg button.is-on { background: var(--lapis); color: #f6d77e; }
+.reader .iconbtn { width: 36px; height: 36px; color: var(--gold); }
+#favBtn.is-on svg { fill: var(--gold-hi); }
+.cartouche { text-align: center; margin: 14px auto 8px; padding: 2px 34px 8px; max-width: 480px;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--gold-hi) 22%, transparent), transparent 70%);
+  border-block: 1px solid var(--gold); position: relative; }
+.cartouche::before, .cartouche::after { content: "✦"; position: absolute; top: 50%; translate: 0 -50%; color: var(--madder); }
+.cartouche::before { right: 6px; } .cartouche::after { left: 6px; }
+.reader__meta { font-size: .8rem; color: var(--madder); }
+.cartouche h2 { margin: 0; font-family: var(--f-qalam); font-size: clamp(1.4rem, 4vw, 1.9rem); line-height: 2.3; color: var(--lapis-2); }
+
+.verses { --fs: 1.35rem; margin: 18px 0 6px; }
+.beyt { display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.beyt:last-child { border-bottom: 0; }
+.misra { font-size: var(--fs); line-height: 2.6; text-align: center; }
+.beyt .misra:first-child { text-align-last: right; } /* مصراعِ اول راست‌چین */
+.beyt .misra:last-child { text-align-last: left; }   /* مصراعِ دوم چپ‌چین – مثلِ نسخه‌های خطی */
+.verses.single .beyt { grid-template-columns: 1fr; }
+.verses.single .misra { text-align-last: center !important; }
+.verses[data-font="nastaliq"] .misra { font-family: var(--f-qalam); }
+.verses[data-font="naskh"] .misra { font-family: var(--f-naskh); line-height: 2.2; font-size: calc(var(--fs) * 1.08); }
+.verses[data-font="sans"] .misra { font-family: var(--f-sans); line-height: 2.1; font-size: calc(var(--fs) * .92); }
+.reader__note { text-align: center; color: var(--ink-soft); font-size: .88rem; margin: 10px auto 0; max-width: 560px; }
+.reader__note:empty { display: none; }
+.reader__nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 18px; }
+.reader__nav .btn { font-size: .85rem; padding: 6px 16px; }
+.toast { position: absolute; bottom: 16px; left: 50%; translate: -50% 0; background: var(--lapis); color: #f6d77e; padding: 4px 16px; border-radius: 999px; font-size: .85rem; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+.lightbox { width: min(1100px, calc(100vw - 24px)); text-align: center; }
+.lightbox img { width: 100%; max-height: 80dvh; object-fit: contain; border: 4px double #d4a63a; background: #efe0bd; }
+.lightbox p { color: #f6ead0; margin: 8px 0 0; }
+.lightbox .iconbtn { position: absolute; top: 8px; left: 8px; background: rgba(15, 22, 45, .7); color: #f0c868; }
+
+/* ── موبایل ── */
+@media (max-width: 760px) {
+  .topbar__inner { flex-wrap: wrap; gap: 6px 10px; }
+  .nav { order: 3; width: 100%; justify-content: center; margin: 0; }
+  .nav a { padding: 2px 8px; font-size: .85rem; }
+  #themeBtn { margin-inline-start: auto; }
+  .beyt { grid-template-columns: 1fr; }
+  .beyt .misra:first-child, .beyt .misra:last-child { text-align-last: center; }
+  .poems { grid-template-columns: 1fr; }
+  .verses { --fs: 1.15rem; }
+}
+
+@media print {
+  .topbar, .hero, .toolbar, .footer, .reader__bar, .reader__nav { display: none !important; }
+}
