@@ -148,14 +148,14 @@
 
     if (!reader.open) reader.showModal();
     reader.scrollTop = 0;
-    if (!fromHash && location.hash !== "#poem/" + id) history.replaceState(null, "", "#poem/" + id);
+    if (!fromHash && location.hash !== "#poem-" + id) history.replaceState(null, "", "#poem-" + id);
   }
 
   function closeReader() {
     if (reader.open) reader.close();
   }
   reader.addEventListener("close", () => {
-    if (location.hash.startsWith("#poem/")) history.replaceState(null, "", location.pathname + location.search);
+    if (location.hash.startsWith("#poem-")) history.replaceState(null, "", location.pathname + location.search);
     renderPoems();
   });
   reader.addEventListener("click", e => { if (e.target === reader) closeReader(); });
@@ -209,7 +209,7 @@
   }
 
   function fromHash() {
-    const m = location.hash.match(/^#poem\/(.+)$/);
+    const m = location.hash.match(/^#poem-(.+)$/);
     if (m) openPoem(decodeURIComponent(m[1]), true);
     else closeReader();
   }

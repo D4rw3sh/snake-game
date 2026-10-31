@@ -10,7 +10,7 @@ Eine Webseite zum Lesen von Hazaragi-Gedichten (Dari/Hazaragi, von rechts nach l
 - Lese-Ansicht wie eine alte Handschrift: Verse als Beyt in zwei Halbversen, Schrift umschaltbar
   (نستعلیق = Kalligrafie-„Qalam“, نسخ, ساده), Schriftgröße, Kopieren, Vor/Zurück (auch mit Pfeiltasten)
 - „Vers des Tages“, Zufallsgedicht, Tag/Nacht-Modus, Galerie, kleines Hazaragi-Wörterbuch
-- Direktlink zu einem Gedicht: `index.html#poem/bamyan`
+- Direktlink zu einem Gedicht: `index.html#poem-bamyan`
 
 ## Struktur
 ```

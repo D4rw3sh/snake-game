@@ -60,7 +60,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ── نوارِ بالا ── */
 .topbar {
-  position: sticky; top: 0; z-index: 20;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
   background: color-mix(in srgb, var(--lapis) 94%, transparent);
   backdrop-filter: blur(6px);
   border-bottom: 3px solid var(--gold);
@@ -82,7 +82,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar .iconbtn { color: #f0c868; }
 
 /* ── هیرو ── */
-.hero { position: relative; min-height: min(86vh, 760px); display: grid; place-items: center; overflow: hidden; isolation: isolate; }
+.hero { position: relative; min-height: min(78vh, 700px); display: grid; place-items: center; overflow: hidden; isolation: isolate; }
 .hero__img {
   position: absolute; inset: 0; z-index: -2;
   background: url("../Bilder/bamiyan.svg") center bottom / cover no-repeat;
