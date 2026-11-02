@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
-  <title>بانوی هزاره با لباس محلی و یخن‌دوزی – به سبک نگارگری</title>
+  <title>بانوی هزاره با پرهنِ گلدار، وسکتِ سکه‌دار و سرغوچ – به سبک نگارگری</title>
   <defs>
     <pattern id="bg" width="70" height="70" patternUnits="userSpaceOnUse">
       <rect width="70" height="70" fill="#7a2418"/>
@@ -13,17 +13,27 @@
     <pattern id="scarfb" width="20" height="10" patternUnits="userSpaceOnUse">
       <rect width="20" height="10" fill="#8e2b20"/><path d="M0 10 L10 0 L20 10Z" fill="#d4a63a"/>
     </pattern>
+      <pattern id="fl" width="22" height="22" patternUnits="userSpaceOnUse">
+      <rect width="22" height="22" fill="#b5332a"/><circle cx="11" cy="11" r="4" fill="#f2c94c"/><circle cx="11" cy="11" r="1.6" fill="#1d4f45"/>
+      <circle cx="0" cy="0" r="2.4" fill="#f6e7c8"/><circle cx="22" cy="22" r="2.4" fill="#f6e7c8"/><circle cx="22" cy="0" r="2.4" fill="#f6e7c8"/><circle cx="0" cy="22" r="2.4" fill="#f6e7c8"/>
+    </pattern>
   </defs>
   <rect width="600" height="760" fill="#efe0bd"/>
   <rect x="20" y="20" width="560" height="720" fill="none" stroke="#1f3a6b" stroke-width="6"/>
   <rect x="32" y="32" width="536" height="696" fill="none" stroke="#c99a2e" stroke-width="2"/>
   <path d="M90 700 L90 270 Q90 130 300 80 Q510 130 510 270 L510 700Z" fill="url(#bg)" stroke="#c99a2e" stroke-width="5"/>
   <!-- dress -->
-  <path d="M215 380 Q300 352 385 380 Q430 470 450 700 L150 700 Q170 470 215 380Z" fill="#b5332a" stroke="#4a140c" stroke-width="2"/>
+  <path d="M215 380 Q300 352 385 380 Q430 470 450 700 L150 700 Q170 470 215 380Z" fill="url(#fl)" stroke="#4a140c" stroke-width="2"/>
   <path d="M250 380 Q300 368 350 380 L344 520 Q300 534 256 520Z" fill="url(#emb)" stroke="#d4a63a" stroke-width="3"/>
   <g fill="#e6e9ea" stroke="#7d8a8f">
     <circle cx="262" cy="530" r="7"/><circle cx="281" cy="537" r="7"/><circle cx="300" cy="540" r="7"/><circle cx="319" cy="537" r="7"/><circle cx="338" cy="530" r="7"/>
   </g>
+  <!-- وسکتِ مخمل کتی سکه، دکمه و صدف -->
+  <path d="M216 382 Q238 372 258 376 L260 528 L200 522 Q204 450 216 382Z" fill="#1f2a44" stroke="#d4a63a" stroke-width="3"/>
+  <path d="M384 382 Q362 372 342 376 L340 528 L400 522 Q396 450 384 382Z" fill="#1f2a44" stroke="#d4a63a" stroke-width="3"/>
+  <g fill="#e6e9ea" stroke="#7d8a8f"><circle cx="228" cy="400" r="5"/><circle cx="228" cy="422" r="5"/><circle cx="228" cy="444" r="5"/><circle cx="228" cy="466" r="5"/><circle cx="228" cy="488" r="5"/><circle cx="228" cy="510" r="5"/><circle cx="248" cy="400" r="5"/><circle cx="248" cy="422" r="5"/><circle cx="248" cy="444" r="5"/><circle cx="248" cy="466" r="5"/><circle cx="248" cy="488" r="5"/><circle cx="248" cy="510" r="5"/><circle cx="352" cy="400" r="5"/><circle cx="352" cy="422" r="5"/><circle cx="352" cy="444" r="5"/><circle cx="352" cy="466" r="5"/><circle cx="352" cy="488" r="5"/><circle cx="352" cy="510" r="5"/><circle cx="372" cy="400" r="5"/><circle cx="372" cy="422" r="5"/><circle cx="372" cy="444" r="5"/><circle cx="372" cy="466" r="5"/><circle cx="372" cy="488" r="5"/><circle cx="372" cy="510" r="5"/></g>
+  <g fill="#fbf7ee" stroke="#b8ab8e"><ellipse cx="238" cy="410" rx="3" ry="4.5"/><ellipse cx="238" cy="432" rx="3" ry="4.5"/><ellipse cx="238" cy="454" rx="3" ry="4.5"/><ellipse cx="238" cy="476" rx="3" ry="4.5"/><ellipse cx="238" cy="498" rx="3" ry="4.5"/><ellipse cx="362" cy="410" rx="3" ry="4.5"/><ellipse cx="362" cy="432" rx="3" ry="4.5"/><ellipse cx="362" cy="454" rx="3" ry="4.5"/><ellipse cx="362" cy="476" rx="3" ry="4.5"/><ellipse cx="362" cy="498" rx="3" ry="4.5"/></g>
+  <g fill="#c0392b"><circle cx="210" cy="420" r="2.4"/><circle cx="210" cy="436" r="2.4"/><circle cx="210" cy="452" r="2.4"/><circle cx="210" cy="468" r="2.4"/><circle cx="210" cy="484" r="2.4"/><circle cx="210" cy="500" r="2.4"/><circle cx="210" cy="516" r="2.4"/><circle cx="390" cy="420" r="2.4"/><circle cx="390" cy="436" r="2.4"/><circle cx="390" cy="452" r="2.4"/><circle cx="390" cy="468" r="2.4"/><circle cx="390" cy="484" r="2.4"/><circle cx="390" cy="500" r="2.4"/><circle cx="390" cy="516" r="2.4"/></g>
   <path d="M160 640 Q300 668 440 640" fill="none" stroke="#d4a63a" stroke-width="6"/>
   <path d="M155 670 Q300 698 445 670" fill="none" stroke="#1d4f45" stroke-width="6"/>
   <!-- scarf back -->
@@ -41,8 +51,9 @@
   <path d="M248 214 Q300 176 352 214 Q366 250 360 300 Q348 250 300 226 Q252 250 240 300 Q234 250 248 214Z" fill="#f4efe3" stroke="#b8ab8e" stroke-width="2"/>
   <path d="M244 300 Q228 360 196 418" fill="none" stroke="url(#scarfb)" stroke-width="10"/>
   <path d="M356 300 Q372 360 404 418" fill="none" stroke="url(#scarfb)" stroke-width="10"/>
-  <!-- jewelry -->
-  <path d="M262 236 Q300 222 338 236" fill="none" stroke="#c0c8cc" stroke-width="3"/>
+  <!-- سرغوچ: کلاهِ چندتکه کتی سکه دَ پیشانی -->
+  <path d="M258 240 Q300 220 342 240" fill="none" stroke="#8e2b20" stroke-width="9"/>
+  <path d="M262 236 Q300 222 338 236" fill="none" stroke="#d4a63a" stroke-width="2"/>
   <g fill="#dfe4e6" stroke="#7d8a8f"><circle cx="270" cy="240" r="4"/><circle cx="285" cy="236" r="4"/><circle cx="300" cy="234" r="4"/><circle cx="315" cy="236" r="4"/><circle cx="330" cy="240" r="4"/></g>
   <!-- hands holding bowl -->
   <ellipse cx="300" cy="600" rx="62" ry="16" fill="#1f3a6b" stroke="#d4a63a" stroke-width="3"/>

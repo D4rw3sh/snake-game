@@ -3,8 +3,11 @@
 
   const POEMS = window.POEMS || [];
   const CATS = window.CATEGORIES || [];
+  const C = window.CULTURE || {};
   const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const catById = Object.fromEntries(CATS.map(c => [c.id, c]));
+  const poemById = Object.fromEntries(POEMS.map(p => [p.id, p]));
   const FA_DIGITS = "۰۱۲۳۴۵۶۷۸۹";
   const fa = n => String(n).replace(/\d/g, d => FA_DIGITS[d]);
 
@@ -16,16 +19,19 @@
 
   const state = {
     cat: "all",
+    voice: "all",
     q: "",
     favs: new Set(store.get("favs", [])),
     font: store.get("font", "nastaliq"),
     size: store.get("size", 0),
     list: POEMS,
-    current: -1
+    current: -1,
+    view: "home",
+    field: "all"
   };
 
   /* ── ابزارِ متن ── */
-  const esc = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const MARKS = "ً-ْٰ‌‍";
   const norm = s => s.replace(new RegExp("[" + MARKS + "]", "g"), "").replace(/ي/g, "ی").replace(/ك/g, "ک").replace(/ة/g, "ه").toLowerCase();
   const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -35,7 +41,21 @@
     const pattern = [...norm(q)].map(ch => reEsc(esc(ch))).join("[" + MARKS + "]*");
     try { return safe.replace(new RegExp(pattern, "g"), m => `<mark>${m}</mark>`); } catch { return safe; }
   }
-  const searchable = p => norm([p.title, p.form, catById[p.cat]?.name || "", ...p.lines, p.note || ""].join(" "));
+  const searchable = p => norm([p.title, p.form, p.voice || "", catById[p.cat]?.name || "", ...p.lines, p.note || ""].join(" "));
+
+  /* ── تکهٔ شعر (پیوندِ هر بخشِ فرهنگی به شعر) ── */
+  function snippet(id, label = "شعرِ همی بخش") {
+    const p = poemById[id];
+    if (!p) return "";
+    return `<button type="button" class="snip" data-poem="${p.id}">
+      <span class="snip__label">${esc(label)} · «${esc(p.title)}»</span>
+      <span class="snip__text">${esc(p.lines.slice(0, 2).join("\n"))}</span>
+      <span class="snip__go">خواندنِ شعر ←</span></button>`;
+  }
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-poem]");
+    if (b) openPoem(b.dataset.poem);
+  });
 
   /* ── دسته‌ها ── */
   function renderCats() {
@@ -63,34 +83,46 @@
     const b = e.target.closest("[data-cat]");
     if (b) setCat(b.dataset.cat);
   });
-
   function setCat(id) { state.cat = id; renderChips(); renderPoems(); }
+
+  function renderVoices() {
+    const voices = [...new Set(POEMS.map(p => p.voice).filter(Boolean))];
+    $("#voice").innerHTML = `<option value="all">همه</option>` + voices.map(v => `<option value="${esc(v)}">${esc(v)} (${fa(POEMS.filter(p => p.voice === v).length)})</option>`).join("");
+    $("#voice").addEventListener("change", e => { state.voice = e.target.value; renderPoems(); });
+  }
 
   /* ── فهرستِ شعرها ── */
   function filtered() {
     const q = norm(state.q.trim());
     return POEMS.filter(p =>
       (state.cat === "all" || (state.cat === "fav" ? state.favs.has(p.id) : p.cat === state.cat)) &&
+      (state.voice === "all" || p.voice === state.voice) &&
       (!q || searchable(p).includes(q)));
   }
 
   function renderPoems() {
     const list = state.list = filtered();
     const q = state.q.trim();
-    const label = state.cat === "all" ? "" : state.cat === "fav" ? " نشان‌شده" : ` دَ دستهٔ «${catById[state.cat].name}»`;
-    $("#count").textContent = `${fa(list.length)} شعر${label}`;
+    const parts = [];
+    if (state.cat === "fav") parts.push("نشان‌شده");
+    else if (state.cat !== "all") parts.push(`دَ دستهٔ «${catById[state.cat].name}»`);
+    if (state.voice !== "all") parts.push(`از زبانِ «${state.voice}»`);
+    $("#count").textContent = `${fa(list.length)} شعر ${parts.join(" ")}`.trim();
     if (!list.length) {
-      $("#poems").innerHTML = `<p class="empty">${state.cat === "fav" ? "هنوز شعری نشان نکدید – دَ وختِ خواندن ستاره ره بزنید." : "شعری پیدا نشد. یک واژهٔ دیگه ره امتحان کنید."}</p>`;
+      $("#poems").innerHTML = `<p class="empty">${state.cat === "fav" ? "هنوز شعری نشان نکدید – دَ وختِ خواندن ستاره ره بزنید." : "شعری پیدا نشد. یک واژه یا فیلترِ دیگه ره امتحان کنید."}</p>`;
       return;
     }
-    $("#poems").innerHTML = list.map(p => `
-      <button class="poem" type="button" data-id="${p.id}">
-        <span class="poem__tag">${esc(p.form)}</span>
+    $("#poems").innerHTML = list.map(p => {
+      const long = p.lines.length > 4;
+      return `
+      <button class="poem${long ? " poem--long" : ""}" type="button" data-id="${p.id}">
+        <span class="poem__tags"><span class="poem__tag">${esc(p.form)}</span>${long ? `<span class="poem__len">${fa(p.lines.length)} مصراع</span>` : ""}</span>
         <h3 class="poem__title">${highlight(p.title, q)}</h3>
-        <p class="poem__text">${p.lines.slice(0, 4).map(l => highlight(l, q)).join("\n")}</p>
-        <span class="poem__foot"><span>${esc(catById[p.cat].name)}</span>
+        <p class="poem__text">${p.lines.slice(0, 4).map(l => highlight(l, q)).join("\n")}${long ? "\n…" : ""}</p>
+        <span class="poem__foot"><span>${esc(catById[p.cat].name)}</span><span class="poem__voice">از زبانِ ${esc(p.voice || "راوی")}</span>
         ${state.favs.has(p.id) ? '<svg class="poem__fav" aria-label="نشان‌شده"><use href="#i-star"/></svg>' : ""}</span>
-      </button>`).join("");
+      </button>`;
+    }).join("");
   }
   $("#poems").addEventListener("click", e => {
     const b = e.target.closest("[data-id]");
@@ -112,12 +144,10 @@
     const go = () => openPoem(p.id);
     $("#daily").addEventListener("click", go);
     $("#daily").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    const long = POEMS.filter(x => x.lines.length > 4).length;
+    $("#stats").textContent = `${fa(POEMS.length)} شعر · ${fa(CATS.length)} دسته · ${fa(long)} شعرِ بلند · ${fa(new Set(POEMS.map(x => x.voice)).size)} صدا`;
   }
-
-  $("#randomBtn").addEventListener("click", () => {
-    const p = POEMS[Math.floor(Math.random() * POEMS.length)];
-    openPoem(p.id);
-  });
+  $("#randomBtn").addEventListener("click", () => openPoem(POEMS[Math.floor(Math.random() * POEMS.length)].id));
 
   /* ── خواننده ── */
   const reader = $("#reader");
@@ -125,22 +155,22 @@
 
   function applyReaderPrefs() {
     verses.dataset.font = state.font;
-    verses.style.setProperty("--fs", `calc(${window.matchMedia("(max-width:760px)").matches ? 1.15 : 1.35}rem + ${state.size * 0.15}rem)`);
-    reader.querySelectorAll("[data-font]").forEach(b => b.classList.toggle("is-on", b.dataset.font === state.font));
+    verses.style.setProperty("--fs", `calc(${matchMedia("(max-width:760px)").matches ? 1.15 : 1.35}rem + ${state.size * 0.15}rem)`);
+    $$("[data-font]", reader).forEach(b => b.classList.toggle("is-on", b.dataset.font === state.font));
   }
 
   function openPoem(id, fromHash = false) {
-    const p = POEMS.find(x => x.id === id);
+    const p = poemById[id];
     if (!p) return;
     if (!state.list.some(x => x.id === id)) state.list = POEMS;
     state.current = state.list.findIndex(x => x.id === id);
 
     $("#rTitle").textContent = p.title;
-    $("#rMeta").textContent = `${p.form} · ${catById[p.cat].name}`;
+    $("#rMeta").textContent = `${p.form} · ${catById[p.cat].name} · از زبانِ ${p.voice || "راوی"}`;
     $("#rNote").textContent = p.note || "";
     const pairs = [];
     for (let i = 0; i < p.lines.length; i += 2) pairs.push(p.lines.slice(i, i + 2));
-    verses.classList.toggle("single", p.form === "سرود");
+    verses.classList.toggle("single", p.form === "مَتَل");
     verses.innerHTML = pairs.map(b => `<div class="beyt">${b.map(m => `<div class="misra">${esc(m)}</div>`).join("")}</div>`).join("");
     $("#favBtn").classList.toggle("is-on", state.favs.has(p.id));
     $("#favBtn").setAttribute("aria-pressed", state.favs.has(p.id));
@@ -151,12 +181,13 @@
     if (!fromHash && location.hash !== "#poem-" + id) history.replaceState(null, "", "#poem-" + id);
   }
 
-  function closeReader() {
-    if (reader.open) reader.close();
-  }
+  function closeReader() { if (reader.open) reader.close(); }
   reader.addEventListener("close", () => {
-    if (location.hash.startsWith("#poem-")) history.replaceState(null, "", location.pathname + location.search);
-    renderPoems();
+    if (location.hash.startsWith("#poem-")) {
+      const back = state.view === "home" ? location.pathname + location.search : "#" + state.view;
+      history.replaceState(null, "", back);
+    }
+    if (state.view === "home") renderPoems();
   });
   reader.addEventListener("click", e => { if (e.target === reader) closeReader(); });
   $("#closeBtn").addEventListener("click", closeReader);
@@ -169,15 +200,14 @@
   $("#nextBtn").addEventListener("click", () => step(1));
   $("#prevBtn").addEventListener("click", () => step(-1));
   reader.addEventListener("keydown", e => {
-    if (e.target.matches("input")) return;
     if (e.key === "ArrowLeft") step(1);   // راست‌به‌چپ: چپ = بعدی
     if (e.key === "ArrowRight") step(-1);
   });
 
-  reader.querySelectorAll("[data-font]").forEach(b => b.addEventListener("click", () => {
+  $$("[data-font]", reader).forEach(b => b.addEventListener("click", () => {
     state.font = b.dataset.font; store.set("font", state.font); applyReaderPrefs();
   }));
-  reader.querySelectorAll("[data-size]").forEach(b => b.addEventListener("click", () => {
+  $$("[data-size]", reader).forEach(b => b.addEventListener("click", () => {
     state.size = Math.max(-2, Math.min(5, state.size + Number(b.dataset.size)));
     store.set("size", state.size); applyReaderPrefs();
   }));
@@ -198,22 +228,96 @@
     if (!p) return;
     const text = `${p.title}\n\n${p.lines.join("\n")}\n\n— گنجینهٔ شعرِ هزارگی`;
     try { await navigator.clipboard.writeText(text); toast("شعر کاپی شد"); }
-    catch { toast("کاپی ممکن نشد"); }
+    catch {
+      const r = document.createRange(); r.selectNodeContents(verses);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      toast("متن انتخاب شد – کاپی کنید");
+    }
   });
 
   let toastTimer;
   function toast(msg) {
     const t = $("#toast");
     t.textContent = msg; t.classList.add("show");
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1600);
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1800);
   }
 
-  function fromHash() {
-    const m = location.hash.match(/^#poem-(.+)$/);
-    if (m) openPoem(decodeURIComponent(m[1]), true);
-    else closeReader();
+  /* ── بخش‌های فرهنگی ── */
+  function renderZendagi() {
+    $("#dayline").innerHTML = (C.day || []).map(d => `
+      <li class="tl">
+        <div class="tl__time"><strong>${esc(d.time)}</strong><small>${esc(d.hint)}</small></div>
+        <article class="tl__card">
+          ${d.img ? `<img class="tl__img" src="${esc(d.img)}" alt="" loading="eager">` : ""}
+          <h3>${esc(d.title)}</h3>
+          <p class="who">${d.who.map(w => `<span>${esc(w)}</span>`).join("")}</p>
+          <p>${esc(d.text)}</p>
+          ${snippet(d.poem)}
+        </article>
+      </li>`).join("");
+    $("#seasons").innerHTML = (C.seasons || []).map(s => `
+      <article class="season" style="--c:${s.color}">
+        <h3>${esc(s.name)}</h3><small>${esc(s.sub)}</small>
+        <p>${esc(s.text)}</p>${snippet(s.poem, "شعرِ فصل")}
+      </article>`).join("");
+    $("#foods").innerHTML = (C.food || []).map(f => `
+      <article class="food"><span class="food__tag">${esc(f.tag)}</span><h3>${esc(f.name)}</h3><p>${esc(f.text)}</p></article>`).join("");
   }
-  window.addEventListener("hashchange", fromHash);
+
+  function renderBazi() {
+    $("#games").innerHTML = (C.games || []).map(g => `
+      <article class="card">
+        <h3>${esc(g.name)}</h3>
+        <p class="who"><span>${esc(g.who)}</span><span>${esc(g.season)}</span></p>
+        <p>${esc(g.text)}</p>${snippet(g.poem)}
+      </article>`).join("");
+    $("#crafts").innerHTML = (C.crafts || []).map(g => `<article class="card"><h3>${esc(g.name)}</h3><p>${esc(g.text)}</p></article>`).join("");
+  }
+
+  function renderRasm() {
+    $("#wedding").innerHTML = (C.wedding || []).map((w, i) => `
+      <li class="step">
+        <span class="step__n">${fa(i + 1)}</span>
+        <div class="step__body"><h3>${esc(w.title)}</h3><p>${esc(w.text)}</p>${w.poem ? snippet(w.poem) : ""}</div>
+      </li>`).join("");
+    $("#ceremonies").innerHTML = (C.ceremonies || []).map(c => `
+      <article class="card"><h3>${esc(c.name)}</h3><p>${esc(c.text)}</p>${snippet(c.poem)}</article>`).join("");
+  }
+
+  function renderLebas() {
+    const dl = arr => arr.map(d => `<div><dt>${esc(d.name)}</dt><dd>${esc(d.text)}</dd></div>`).join("");
+    $("#dressW").innerHTML = dl(C.clothing?.women || []);
+    $("#dressM").innerHTML = dl(C.clothing?.men || []);
+    $("#stitches").innerHTML = (C.clothing?.stitches || []).map(s => `<span class="chip">${esc(s)}</span>`).join("");
+  }
+
+  function renderPeople() {
+    const people = C.people || [];
+    const fields = ["all", ...new Set(people.map(p => p.field))];
+    $("#fields").innerHTML = fields.map(f => `<button type="button" class="chip" role="tab" data-field="${esc(f)}" aria-selected="${state.field === f}">${f === "all" ? "همه" : esc(f)}</button>`).join("");
+    $("#people").innerHTML = people.filter(p => state.field === "all" || p.field === state.field).map(p => `
+      <article class="person">
+        <div class="person__seal" aria-hidden="true">${esc([...p.name.replace(/^سید /, "")][0])}</div>
+        <div class="person__body">
+          <h3>${esc(p.name)}</h3>
+          <p class="person__meta"><span>${esc(p.years)}</span><span>${esc(p.place)}</span><span class="person__field">${esc(p.field)}</span></p>
+          <p class="person__role">${esc(p.role)}</p>
+          <p class="person__why"><strong>چرا مهم است؟</strong> ${esc(p.why)}</p>
+        </div>
+      </article>`).join("");
+  }
+  $("#fields").addEventListener("click", e => {
+    const b = e.target.closest("[data-field]");
+    if (b) { state.field = b.dataset.field; renderPeople(); }
+  });
+
+  function renderTarikh() {
+    $("#history").innerHTML = (C.history || []).map(h => `<li><span class="history__when">${esc(h.when)}</span><p>${esc(h.text)}</p></li>`).join("");
+    $("#perspectives").innerHTML = (C.perspectives || []).map(p => `
+      <article class="card card--voice"><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p>
+      <p class="poemlinks">${p.poems.map(id => poemById[id] ? `<button type="button" class="linkbtn" data-poem="${id}">«${esc(poemById[id].title)}»</button>` : "").join("")}</p></article>`).join("");
+    $("#sources").innerHTML = (C.sources || []).map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join("");
+  }
 
   /* ── نگارخانه ── */
   function renderGallery() {
@@ -231,10 +335,39 @@
     lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
   }
 
-  /* ── واژه‌نامه ── */
   function renderGlossary() {
     $("#glossary").innerHTML = (window.GLOSSARY || []).map(([h, d]) => `<div><dt>${esc(h)}</dt><dd>${esc(d)}</dd></div>`).join("");
   }
+
+  /* ── مسیرها (هر صفحه یک #نام) ── */
+  const VIEWS = ["zendagi", "bazi", "rasm", "lebas", "mashahir", "tarikh"];
+  const HOME_ANCHORS = ["ashar", "dasta", "negarkhana", "wazhanama", "darbara"];
+
+  function showView(v) {
+    if (state.view === v) return false;
+    state.view = v;
+    $$(".view").forEach(el => { el.hidden = el.id !== "view-" + v; });
+    $$("#nav a").forEach(a => a.classList.toggle("is-on", a.dataset.view === v));
+    return true;
+  }
+
+  function route() {
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (h.startsWith("poem-")) {
+      if (!$(".view:not([hidden])")) showView("home");
+      openPoem(h.slice(5), true);
+      return;
+    }
+    closeReader();
+    if (VIEWS.includes(h)) {
+      if (showView(h)) window.scrollTo(0, 0);
+    } else {
+      const changed = showView("home");
+      if (HOME_ANCHORS.includes(h)) $("#" + h).scrollIntoView();
+      else if (changed || h === "") window.scrollTo(0, 0);
+    }
+  }
+  window.addEventListener("hashchange", route);
 
   /* ── روز و شب ── */
   const themeBtn = $("#themeBtn");
@@ -253,9 +386,17 @@
   /* ── آغاز ── */
   renderCats();
   renderChips();
+  renderVoices();
   renderPoems();
   renderDaily();
   renderGallery();
   renderGlossary();
-  fromHash();
+  renderZendagi();
+  renderBazi();
+  renderRasm();
+  renderLebas();
+  renderPeople();
+  renderTarikh();
+  state.view = null;
+  route();
 })();

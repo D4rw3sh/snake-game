@@ -11,6 +11,16 @@ Die Bilder in diesem Ordner sind eigene Illustrationen im Stil persischer Miniat
 | `band-e-amir.svg` | Die türkisfarbenen Seen von Band-e Amir |
 | `qishlaq.svg` | Dorf (Qishlaq) im Hazaradschat |
 | `chopan.svg` | Hirte mit Herde im Abendlicht |
+| `shir-doshi.svg` | Morgen im Dorf: Melken, Tandoor, Butterschlauch (مشک) |
+| `maktab.svg` | Schulweg (Morgenschicht) und Hirtenjunge mit Herde |
+| `alaf.svg` | Mutter mit Grasbündel (پشتاره) für die Kuh |
+| `kharman.svg` | Dreschen mit Ochsen im Herbst |
+| `bazi.svg` | Kinderspiele: Drachen, Eierkampf, Panj-Sang, Dande-Kelak |
+| `tuy.svg` | Hochzeit: Braut mit Münzband (تیقی‌چیغی), Dambura-Spieler |
+
+Kleidung nach Quellen: Frauen mit langem, weitem, geblümtem Kleid (پرهن), weiter Hose (تنبان) mit bestickten Säumen,
+kurzer Samtweste (وسکت) mit Münzen/Knöpfen/Muscheln, Kappe (سرغوچ) und Kopftuch (لاته/چادر);
+Männer mit پیراهن و تنبان, gestreiftem Chapan (Winter) und besticktem Käppchen.
 
 ## Eigene Fotos hinzufügen
 
