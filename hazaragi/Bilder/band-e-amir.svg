@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700">
+  <title>دریاچه‌های بند امیر</title>
+  <defs>
+    <linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d93c9"/><stop offset="1" stop-color="#cfe3ee"/></linearGradient>
+    <linearGradient id="l1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a5f8f"/><stop offset="1" stop-color="#1c86a6"/></linearGradient>
+    <linearGradient id="l2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2aa7b8"/><stop offset="1" stop-color="#5fd0c9"/></linearGradient>
+    <linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6c9a0"/><stop offset="1" stop-color="#b48a5c"/></linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#s)"/>
+  <g fill="#fff" opacity=".85"><ellipse cx="260" cy="110" rx="90" ry="22"/><ellipse cx="320" cy="95" rx="60" ry="20"/><ellipse cx="880" cy="140" rx="110" ry="24"/><ellipse cx="950" cy="125" rx="70" ry="22"/></g>
+  <path d="M0 300 L150 210 L260 260 L400 180 L520 250 L700 170 L860 240 L1000 190 L1200 260 L1200 420 L0 420Z" fill="#9b8aa6" opacity=".7"/>
+  <path d="M0 330 Q120 300 200 320 L260 260 Q300 300 380 290 L460 330 Q600 280 720 300 L800 250 Q860 300 960 300 L1060 270 Q1140 300 1200 310 L1200 700 L0 700Z" fill="url(#c)"/>
+  <g stroke="#9c7448" stroke-width="2" opacity=".5" fill="none"><path d="M0 360 Q300 340 600 360 T1200 350"/><path d="M0 390 Q300 370 600 390 T1200 380"/></g>
+  <!-- upper lake -->
+  <path d="M120 470 Q400 420 760 440 Q1000 450 1150 480 Q1000 520 700 520 Q350 525 120 470Z" fill="url(#l1)"/>
+  <path d="M120 470 Q350 525 700 520 Q1000 520 1150 480" fill="none" stroke="#f3ead7" stroke-width="9"/>
+  <!-- lower lake -->
+  <path d="M0 540 Q300 510 650 530 Q950 545 1200 530 L1200 640 Q800 610 400 630 Q150 640 0 620Z" fill="url(#l2)"/>
+  <path d="M0 620 Q150 640 400 630 Q800 610 1200 640" fill="none" stroke="#f3ead7" stroke-width="9"/>
+  <path d="M0 625 Q400 640 1200 645 L1200 700 L0 700Z" fill="#c8a678"/>
+  <g stroke="#fff" stroke-width="3" opacity=".5"><line x1="300" y1="470" x2="360" y2="470"/><line x1="700" y1="485" x2="780" y2="485"/><line x1="200" y1="565" x2="280" y2="565"/><line x1="800" y1="575" x2="900" y2="575"/></g>
+  <g fill="#bfa27d" stroke="#7a5a36" stroke-width="2"><rect x="920" y="420" width="60" height="30"/><rect x="985" y="428" width="40" height="22"/></g>
+</svg>
